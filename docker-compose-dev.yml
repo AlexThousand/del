@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgis/postgis:15-3.3 
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - osrm
+    environment:
+      DEBUG: ${DEBUG}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+    networks:
+      - backend
+
+  osrm:
+    image: osrm/osrm-backend
+    command: >
+      osrm-routed --algorithm ch /data/nikolaev-region.osrm
+    volumes:
+      - ./osrm-server:/data
+    ports:
+      - "5000:5000"
+    networks:
+      - backend
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:

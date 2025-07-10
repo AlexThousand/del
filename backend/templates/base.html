@@ -1,0 +1,24 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %} Index{% endblock %}</title>
+        <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
+    <body>
+
+{% include 'header.html'%}
+
+<div class="col-lg-10 mx-auto p-3 py-md-5">
+  <main>
+     {% block content %} {% endblock %}
+  </main>
+  <footer class="pt-5 my-5 text-muted border-top">
+    Created &middot; &copy; 2025
+  </footer>
+</div>
+    </body>
+    {% block js_bottom %} {% endblock %}
+</html>
