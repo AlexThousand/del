@@ -7,11 +7,13 @@ def create_patrols(apps, schema_editor):
     Zone = apps.get_model('map', 'Zone')
     Patrol = apps.get_model('map', 'Patrol')
 
-    from apps.map.services import get_random_point_in_polygon
+    from apps.map.services.geo_service import GeoService
+
+    geo_service = GeoService() 
 
     for zone in Zone.objects.all():
         for i in range(5):
-            point = get_random_point_in_polygon(zone.area)
+            point = geo_service.get_random_point_in_polygon(zone.area)
 
             if not point:
                 continue
