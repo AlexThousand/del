@@ -23,6 +23,7 @@ services:
     depends_on:
       - db
       - osrm
+      - graphhopper
     environment:
       DEBUG: ${DEBUG}
       SECRET_KEY: ${SECRET_KEY}
@@ -46,6 +47,16 @@ services:
     networks:
       - backend
 
+  graphhopper:
+    image: israelhikingmap/graphhopper
+    command: >
+      --url "https://www.dropbox.com/scl/fi/eprug85mary8jc181pvg2/map.osm.pbf?rlkey=lexj7sahiebek89mksiqbdqid&e=1&st=kqhio5gn&dl=1" 
+      --host 0.0.0.0
+    ports:
+      - "8989:8989"
+    networks:
+      - backend
+      
 volumes:
   postgres_data:
 

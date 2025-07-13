@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title|default:"Map" }}{% endblock %}
+
+{% block content %}
+<div class="row align-items-start">
+    <div class="col-{{ map_width|default:8 }}">
+        <div id="map" style="height: 500px;"></div>
+    </div>
+    {% if show_sidebar %}
+    <div class="col-{{ sidebar_width|default:4 }}">
+        <div id="patrol-list"></div>
+    </div>
+    {% endif %}
+</div>
+
+{% block content_below_map %}
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="content-below-map">
+            {% if map_type == 'main' %}
+                {% include 'map_content/main_page_content.html' %}
+            {% elif map_type == 'point' %}
+                {% include 'map_content/point_page_content.html' %}
+            {% elif map_type == 'point_alt' %}
+                {% include 'map_content/point_alt_page_content.html' %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% endblock %}
+
+{% block js_bottom %}
+<script>
+    const urls = {
+        zones: "{% url 'map:api:zones_list' %}",
+        patrols: "{% url 'map:api:patrols_list' %}",
+        route: "{% url 'map:api:routes_to_patrols' %}",
+        route_points: "{% url 'map:api:route_points' %}",
+        route_points_alt: "{% url 'map:api:route_points_alt' %}",
+        index_page: "{% url 'map:index' %}"
+    };
+</script>
+<script src="{% static 'js/map-core.js' %}"></script>
+
+{% if map_type == 'main' %}
+    <script src="{% static 'js/map-main.js' %}"></script>
+{% elif map_type == 'point' %}
+    <script src="{% static 'js/map-point.js' %}"></script>
+{% elif map_type == 'point_alt' %}
+    <script src="{% static 'js/map-point-alt.js' %}"></script>
+{% else %}
+<script src="{% static 'js/map-main.js' %}"></script>
+{% endif %}
+{% endblock %} 

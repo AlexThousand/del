@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    mapCore = new MapCore().init(true); 
+    mapCore = new MapCore().init(true); // Загружаем зоны и патрули
     const patrolListContainer = document.getElementById('patrol-list');
 
     setupMapClickHandler();
@@ -36,4 +36,4 @@ function setupMapClickHandler() {
             console.error('Ошибка запроса маршрута:', err);
         }
     });
-}
+} 

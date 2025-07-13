@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Обязательно установить переменную окружения для GDAL
 ENV GDAL_LIBRARY_PATH=/usr/lib/libgdal.so
 
 COPY backend/requirements.txt .
